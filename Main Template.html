@@ -1,0 +1,284 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Store Dashboard</title>
+</head>
+<style>
+	body {
+		background-color: #0D0D0D;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100vh;
+		margin: 0;
+		padding: 0;
+	}
+
+	#container {
+		background: linear-gradient(45deg, #5C43D2, #D143B9, #5C43D2);
+		background-size: 400% 100%;
+		animation: color 8s ease-in-out infinite;
+		width: 970px;
+		height: 729px;
+		display: flex; /* Enable Flexbox */
+		justify-content: center; /* Center horizontally */
+		align-items: center; /* Center vertically */
+		position: relative;
+		display: grid;
+		grid-template-columns: 87px 859px;
+		grid-template-rows: 63px 643px;
+		gap: 23px;
+		z-index: 1; /* Ensure it's above the gradient but below the divs */
+		justify-items: center; /* Horizontally center grid items */
+    	align-items: center;
+	}
+	@keyframes color {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% { 
+			background-position: 80% 50%;
+		}
+		100% {
+			background-position: 0% 50%;
+		}
+	}
+	
+	#corner {
+		/*background-color: #5C43D2;*/
+		border-radius: 15px;
+		width: 87px;
+		height: 63px;
+		background: transparent;
+		box-shadow: 0 0 0 25px #0D0D0D;
+	}
+
+	#menu {
+		/*border: 1px solid red;*/
+		width: 859px;
+		height: 63px;
+		display: flex;
+		justify-content: space-between; /* Distribute buttons evenly */
+
+	}
+
+	.buttons {
+		display: flex; /* Center content inside the button */
+		justify-content: center;
+		align-items: center;
+		background: transparent;
+		border-radius: 15px;
+		height: 62px;
+		width: 147px;
+		color: #F2F2F2;
+		font-family: Arial, sans-serif;
+		font-weight: bold;
+		font-size: 24px;
+		border: none;
+		outline: none;
+		cursor: pointer;
+		transition: transform 0.2s ease;
+		position: relative;
+
+		/* Apply a box-shadow to create the external border effect */
+		box-shadow: 0 0 0 22px #0D0D0D; 
+		/*box-shadow: 9px 9px 16px rgb(163, 177, 198, 0.6),
+			-9px -9px 16px rgb(255, 255, 255, 0.5);*/ /*an attempt at neumorphism */
+	}
+
+	.buttons:active {
+		background-color: rgba(40, 40, 40, 0.25); /* Background color when the button is clicked */
+		/*color: #C4C4C4;*/
+		transform: scale(0.96);
+		/*box-shadow: inset 9px 9px 16px rgb(163,177,198,0.6),
+			inset -9px -9px 16px rgb(255,255,255,0.5);*/
+		
+	}
+	
+	#sidebar {
+		/*background-color: #5C43D2;*/
+		border-radius: 15px;
+		width: 87px;
+		height: 643px;
+		background: transparent;
+		box-shadow: 0 0 0 25px #0D0D0D;
+	}
+
+	#main {
+		background-color: #F2F2F2;
+		border-radius: 15px;
+		width: 859px;
+		height: 643px;
+		box-sizing: border-box; /* to maintain size wtih internal padding */
+		position: relative;
+		overflow: hidden; /* Hides overflow to maintain border radius */
+		box-shadow: 0 0 0 22px #0D0D0D;
+	}
+	
+	#scrollable {
+		overflow-y: auto; /* Adds a scrollbar if the content overflows */
+		width: calc(100% - 12%); /* 95% of the parent's width */
+    	height: calc(100% - 12%); 
+    	position: absolute; /* Optional, for positioning within #main */
+    	top: 6%; /* Centers the div vertically within #main */
+    	left: 6%; 
+		display: flex; /* Enable Flexbox */
+		flex-direction: column; /* Align children in a column */
+		gap: 43px;
+		align-items: center;
+		
+		/*border: 1px solid red; */
+	}
+	
+	#loading {
+		background-color: #5C43D2;
+		border-radius: 15px;
+		width: 110px;
+		height: 43px;
+		position: absolute; /* these center it within #main */
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	
+	.circle {
+		width: 11px;  /* Size of the circle */
+		height: 11px; /* Size of the circle */
+		background-color: white;
+		border-radius: 50%;
+		animation: pulse 2s infinite;
+	}
+	
+	#circle_div {
+		width: 65px;  
+		height: 43px;
+		display: flex;
+    	justify-content: space-between;
+		align-items: center;
+	}
+	
+	@keyframes pulse {
+		0%, 100% {
+			transform: scale(1);
+		}
+		50% {
+			transform: scale(1.5);
+		}
+	}
+	
+	.skeleton {
+		animation: skeleton-loading 1.5s linear infinite alternate;		
+	}
+	
+	@keyframes skeleton-loading {
+		0% {
+			background-color: hsl(252, 64%, 88%);
+		}
+		
+		100% {
+			background-color: hsl(252, 64%, 95%);
+		}
+	}
+	
+	.skeleton-circle {
+		width: 77px;  /* Size of the circle */
+		height: 77px; /* Size of the circle */
+		background-color: #E0DAF7;
+		border-radius: 50%;
+		/*animation: pulse 2s infinite;*/
+	}
+	
+	.skeleton-line1 {
+		width: 569px;  /* Size of the circle */
+		height: 16px; /* Size of the circle */
+		background-color: #E0DAF7;
+		margin-left: 38px;
+	}
+	
+	.skeleton-line2 {
+		width: 607px;  /* Size of the circle */
+		height: 16px; /* Size of the circle */
+		background-color: #E0DAF7;
+	}
+	
+	.order-summary {
+		width: 726px; 
+		height: 77px;
+		/*border: 1px solid #ccc; /* Optional: for visual separation */
+		/* padding: 10px; /* Space inside each order summary */
+		
+		flex-shrink: 0; /* Prevents the item from shrinking */
+		/*box-sizing: border-box; /* to maintain size wtih internal padding */
+		display: flex;
+    	justify-content: space-between;
+	}
+	
+	.lines {
+		display: flex;
+    	flex-direction: column;
+		justify-content: space-around;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		/*gap: 17px;*/
+	}
+</style>
+<body>
+    <div id="container">
+		<div id="corner"></div>
+		<div id="menu">
+			<button class="buttons">Home</button>
+			<button class="buttons">Orders</button>
+			<button class="buttons">Stock</button>
+			<button class="buttons">Tasks</button>
+			<button class="buttons">Profit</button>
+		</div>
+		<div id="sidebar"></div>
+		<div id="main">
+			<div id="scrollable">
+				<div class="order-summary">
+					<div class="skeleton-circle skeleton"></div>
+					<div class="lines">
+						<div class="skeleton-line1 skeleton"></div>
+						<div class="skeleton-line2 skeleton"></div>
+					</div>
+				</div>
+				<div class="order-summary">
+					<div class="skeleton-circle skeleton"></div>
+					<div class="lines">
+						<div class="skeleton-line1 skeleton"></div>
+						<div class="skeleton-line2 skeleton"></div>
+					</div>
+				</div>
+				<div class="order-summary">
+					<div class="skeleton-circle skeleton"></div>
+					<div class="lines">
+						<div class="skeleton-line1 skeleton"></div>
+						<div class="skeleton-line2 skeleton"></div>
+					</div>
+				</div>
+				<div class="order-summary">
+					<div class="skeleton-circle skeleton"></div>
+					<div class="lines">
+						<div class="skeleton-line1 skeleton"></div>
+						<div class="skeleton-line2 skeleton"></div>
+					</div>
+				</div>
+				<div class="order-summary">
+					<div class="skeleton-circle skeleton"></div>
+					<div class="lines">
+						<div class="skeleton-line1 skeleton"></div>
+						<div class="skeleton-line2 skeleton"></div>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+    </div>
+</body>
+
+</html>
